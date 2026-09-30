@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import confetti from "canvas-confetti";
 import { Music, VolumeX } from "lucide-react";
 
-import themeSong from "@/assets/birthday-theme.mp3";
+import themeSong from "@/assets/birthday-song.mp3.asset.json";
 
 import card1 from "@/assets/card1.jpg.asset.json";
 import card2 from "@/assets/card2.jpg.asset.json";
@@ -79,11 +79,22 @@ function Index() {
   const isLast = index === cards.length - 1;
 
   useEffect(() => {
-    const audio = new Audio(themeSong);
+    const audio = new Audio(themeSong.url);
     audio.loop = true;
     audio.volume = 0;
     audioRef.current = audio;
+
+    const startOnAnyPress = () => {
+      const a = audioRef.current;
+      if (!a || a.paused) {
+        fadeIn();
+        setPlaying(true);
+      }
+    };
+    document.addEventListener("pointerdown", startOnAnyPress);
+
     return () => {
+      document.removeEventListener("pointerdown", startOnAnyPress);
       audio.pause();
       audioRef.current = null;
     };
