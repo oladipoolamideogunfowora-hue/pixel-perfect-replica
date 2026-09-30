@@ -121,7 +121,7 @@ function Index() {
               <img
                 src={card.image}
                 alt={`Memory ${index + 1} of Ayomikun`}
-                className="w-full object-cover sepia-[.3] contrast-[1.1] saturate-[.95]"
+                className="aspect-[4/5] w-full object-cover object-center sepia-[.3] contrast-[1.1] saturate-[.95]"
               />
               <span className="halftone" aria-hidden="true" />
             </div>
