@@ -43,7 +43,7 @@ const cards = [
     script: "Thank",
     headline: "You",
     message:
-      "Thank you for always looking out for me and making sure I was fed when things were rough — your kindness means the world to me, and I'll never forget it.",
+      "Thank you for the food, the love, and everything in between — your kindness means the world to me, and I'll never forget it.",
   },
   {
     image: card3.url,
