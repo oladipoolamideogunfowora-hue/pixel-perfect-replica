@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import confetti from "canvas-confetti";
+import { Music, VolumeX } from "lucide-react";
+
+import themeSong from "@/assets/birthday-theme.mp3";
 
 import card1 from "@/assets/card1.jpg.asset.json";
 import card2 from "@/assets/card2.jpg.asset.json";
@@ -70,10 +73,54 @@ const cards = [
 
 function Index() {
   const [index, setIndex] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const card = cards[index]!;
   const isLast = index === cards.length - 1;
 
+  useEffect(() => {
+    const audio = new Audio(themeSong);
+    audio.loop = true;
+    audio.volume = 0;
+    audioRef.current = audio;
+    return () => {
+      audio.pause();
+      audioRef.current = null;
+    };
+  }, []);
+
+  const fadeIn = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    void audio.play();
+    let v = 0;
+    const tick = setInterval(() => {
+      v += 0.05;
+      if (v >= 0.7) {
+        v = 0.7;
+        clearInterval(tick);
+      }
+      audio.volume = v;
+    }, 100);
+  };
+
+  const toggleMusic = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (playing) {
+      audio.pause();
+      setPlaying(false);
+    } else {
+      fadeIn();
+      setPlaying(true);
+    }
+  };
+
   const handleNext = () => {
+    if (!playing) {
+      fadeIn();
+      setPlaying(true);
+    }
     if (isLast) {
       confetti({
         particleCount: 160,
