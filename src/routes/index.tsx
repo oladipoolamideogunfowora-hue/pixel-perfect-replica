@@ -217,6 +217,20 @@ function Index() {
           {playing ? <Music className="h-3 w-3" /> : <VolumeX className="h-3 w-3" />}
           {playing ? "Music on" : "Play music"}
         </button>
+        <a
+          href={`https://wa.me/2348121146922?text=${encodeURIComponent(
+            "Hi! I just went through the birthday card you made for Ayomikun — it's beautiful 💛 Please recreate one like this for my loved ones!",
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 rounded-full border border-ink/25 px-4 py-1.5 text-[0.6rem] font-bold uppercase tracking-[0.25em] text-ink/70 transition-colors hover:bg-ink/5"
+          aria-label="Recreate this for your loved ones — message on WhatsApp"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5" aria-hidden="true">
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.92 9.92 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91A9.85 9.85 0 0 0 12.04 2Zm5.8 14.09c-.25.7-1.45 1.33-2 1.38-.51.05-1.16.07-1.87-.12-.43-.14-.99-.32-1.7-.63-2.99-1.29-4.94-4.3-5.09-4.5-.15-.2-1.22-1.62-1.22-3.09 0-1.47.77-2.19 1.05-2.49.28-.3.6-.37.8-.37.2 0 .4 0 .58.01.19.01.44-.07.68.52.25.6.85 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.76 1.26 1.64 2.04 1.13 1 2.08 1.32 2.37 1.47.3.15.47.13.65-.08.17-.2.75-.87.94-1.17.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.07.12.07.72-.18 1.42Z" />
+          </svg>
+          Recreate this for a loved one
+        </a>
         <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-ink/40">
           @ladoblow
         </p>
