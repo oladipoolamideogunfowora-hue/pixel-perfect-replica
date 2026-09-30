@@ -86,7 +86,10 @@ function Index() {
 
     const startOnAnyPress = () => {
       const a = audioRef.current;
-      if (!a || a.paused) fadeIn();
+      if (!a || a.paused) {
+        fadeIn();
+        setPlaying(true);
+      }
     };
     document.addEventListener("pointerdown", startOnAnyPress);
 
