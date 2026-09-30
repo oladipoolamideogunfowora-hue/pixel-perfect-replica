@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import confetti from "canvas-confetti";
+import { Music, VolumeX } from "lucide-react";
+
+import themeSong from "@/assets/birthday-theme.mp3";
 
 import card1 from "@/assets/card1.jpg.asset.json";
 import card2 from "@/assets/card2.jpg.asset.json";
@@ -43,7 +46,7 @@ const cards = [
     script: "Thank",
     headline: "You",
     message:
-      "Thank you for always looking out for me and making sure I was fed when things were rough — your kindness means the world to me, and I'll never forget it.",
+      "Thank you for the food, the love, and everything in between — your kindness means the world to me, and I'll never forget it.",
   },
   {
     image: card3.url,
@@ -70,10 +73,54 @@ const cards = [
 
 function Index() {
   const [index, setIndex] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const card = cards[index]!;
   const isLast = index === cards.length - 1;
 
+  useEffect(() => {
+    const audio = new Audio(themeSong);
+    audio.loop = true;
+    audio.volume = 0;
+    audioRef.current = audio;
+    return () => {
+      audio.pause();
+      audioRef.current = null;
+    };
+  }, []);
+
+  const fadeIn = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    void audio.play();
+    let v = 0;
+    const tick = setInterval(() => {
+      v += 0.05;
+      if (v >= 0.7) {
+        v = 0.7;
+        clearInterval(tick);
+      }
+      audio.volume = v;
+    }, 100);
+  };
+
+  const toggleMusic = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (playing) {
+      audio.pause();
+      setPlaying(false);
+    } else {
+      fadeIn();
+      setPlaying(true);
+    }
+  };
+
   const handleNext = () => {
+    if (!playing) {
+      fadeIn();
+      setPlaying(true);
+    }
     if (isLast) {
       confetti({
         particleCount: 160,
@@ -118,11 +165,15 @@ function Index() {
             </div>
 
             <div className="photo-frame mt-5 w-full">
-              <img
+              <motion.img
                 src={card.image}
                 alt={`Memory ${index + 1} of Ayomikun`}
+                initial={{ scale: 1.12 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 6, ease: "easeOut" }}
                 className="aspect-[4/5] w-full object-cover object-center sepia-[.3] contrast-[1.1] saturate-[.95]"
               />
+              <span className="vignette" aria-hidden="true" />
               <span className="halftone" aria-hidden="true" />
             </div>
 
@@ -147,6 +198,14 @@ function Index() {
             />
           ))}
         </div>
+        <button
+          onClick={toggleMusic}
+          className="flex items-center gap-2 rounded-full border border-ink/25 px-4 py-1.5 text-[0.6rem] font-bold uppercase tracking-[0.25em] text-ink/70 transition-colors hover:bg-ink/5"
+          aria-label={playing ? "Mute music" : "Play music"}
+        >
+          {playing ? <Music className="h-3 w-3" /> : <VolumeX className="h-3 w-3" />}
+          {playing ? "Music on" : "Play music"}
+        </button>
         <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-ink/40">
           @ladoblow
         </p>

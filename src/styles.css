@@ -148,6 +148,17 @@
   background-size: 3.5px 3.5px;
 }
 
+@utility vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    oklch(0.2 0.02 45 / 0.45) 100%
+  );
+}
+
 @utility stamp-btn {
   display: inline-flex;
   align-items: center;
